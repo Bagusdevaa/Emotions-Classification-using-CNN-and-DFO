@@ -7,6 +7,7 @@ class DFO():
         self.NP = NP
         self.max_evals = max_evals
         self.dt = dt
+        self.best_fitness_history = [] # Menyimpan sejarah nilai fungsi terbaik
         """
         Args:
             f: Fungsi objektif yang akan diminimalkan.
@@ -45,25 +46,10 @@ class DFO():
                 # Menghitung fitness untuk lalat yang diperbaharui
                 fitness[i] = self.f(flies[i])  # Update fitness untuk lalat yang diperbaharui
                 evals += 1
+            # Simpan fitness terbaik di setiap iterasi
+            best_fitness = min(fitness)
+            self.best_fitness_history.append(best_fitness) # simpan best fitness
 
         # Mengembalikan lalat terbaik setelah semua evaluasi selesai
         best_index = fitness.index(min(fitness))
-        return flies[best_index], fitness[best_index]  # Kembalikan posisi dan fitness terbaik
-
-
-# # Contoh penggunaan
-# def sphere(x):
-#     return sum([xi**2 for xi in x])
-
-# bounds = [(-5.12, 5.12), (-5.12, 5.12)]
-
-# NP = 20
-# max_evals = 1000
-# dt = 0.2
-
-# fit = DFO(sphere, bounds, NP, max_evals, dt)
-# best_fly = fit.calculate_dfo()
-
-# print(best_fly)
-
-    
+        return flies[best_index], fitness[best_index], self.best_fitness_history  # Kembalikan posisi, fitness terbaik, dan fitness history terbaik
